@@ -37,7 +37,7 @@ class TutorialPipeline:
 
     def process_item(self, item, spider):
 
-        ## Check to see if text is already in database 
+        ## Check to see if the item is already in database 
         self.cur.execute("select * from books_to_read where title = %s", (item['title'],))
         result = self.cur.fetchone()
 
