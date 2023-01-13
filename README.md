@@ -26,4 +26,4 @@ cd tutorial
 ```
 
 4. make changes to pipelines.py file and enter necessary db details.
-   customize as the overall project as you may see fit.
+   Customize the overall project as you may see fit.
