@@ -41,7 +41,9 @@ class BookSpider(scrapy.Spider):
 
 
 
-    
+
+#if you are on a linux machine you can set these in settings.py but for windows user this is correct place to put these settings for playwright for now. Read the page below for more information.
+#issue: https://github.com/scrapy-plugins/scrapy-playwright/issues/49  
 if __name__ == "__main__":
     process = CrawlerProcess(
         settings={
