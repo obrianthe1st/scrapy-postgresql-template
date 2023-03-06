@@ -1,39 +1,24 @@
 import scrapy
-from ..items import TutorialItem
+from ..items import QuoteItem
 from scrapy.spiders import CrawlSpider
 
 from scrapy_playwright.page import PageMethod
 from scrapy.crawler import CrawlerProcess
 
-class BookSpider(scrapy.Spider):
-    name = 'bookscraper'
-    # start_urls = [
-    #     'https://books.toscrape.com/catalogue/page-2.html',
-    # ]
-
-    #this methodology helps us to bypass the scraper
-    url = 'https://books.toscrape.com/catalogue/page-{}.html'
-    base_url = 'https://books.toscrape.com/'
+class QuoteSpider(scrapy.Spider):
+    name = 'quotes'
 
     def start_requests(self):
-        for i in range(1,3):
-            yield scrapy.Request(self.url.format(i),
-                                 meta={'playwright':True,
-                                       'playwright_include_page': True,})
+        url = 'https://quotes.toscrape.com/'
+        yield scrapy.Request(url, callback=self.parse)
 
-
-    def parse(self,response):
-        items = TutorialItem()
-
-        bookTitles = response.xpath('//article')
-        for book in bookTitles:
-            link = book.xpath('h3/a/@href').get()
-            new_url = self.base_url +"catalogue/"+ link
-            yield scrapy.Request(new_url,callback=self.parse_title)
-
-    def parse_title(self,response):
-        title = response.xpath('//div[@class="content"]//article//h1/text()').extract()
-        yield {"title":title}
+    def parse(self, response):
+        quote_item = QuoteItem()
+        for quote in response.css('div.quote'):
+            quote_item['text'] = quote.css('span.text::text').get()
+            quote_item['author'] = quote.css('small.author::text').get()
+            quote_item['tags'] = quote.css('div.tags a.tag::text').getall()
+            yield quote_item
 
             
 
@@ -41,9 +26,7 @@ class BookSpider(scrapy.Spider):
 
 
 
-
-#if you are on a linux machine you can set these in settings.py but for windows user this is correct place to put these settings for playwright for now. Read the page below for more information.
-#issue: https://github.com/scrapy-plugins/scrapy-playwright/issues/49  
+    
 if __name__ == "__main__":
     process = CrawlerProcess(
         settings={
@@ -57,7 +40,7 @@ if __name__ == "__main__":
             "FEED_FORMAT":'jsonlines',
         }
     )
-    process.crawl(BookSpider)
+    process.crawl(QuoteSpider)
     process.start()
 
 
