@@ -20,12 +20,6 @@ class QuoteSpider(scrapy.Spider):
             quote_item['tags'] = quote.css('div.tags a.tag::text').getall()
             yield quote_item
 
-            
-
-
-
-
-
     
 if __name__ == "__main__":
     process = CrawlerProcess(

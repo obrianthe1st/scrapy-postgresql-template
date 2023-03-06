@@ -5,6 +5,10 @@
 This project is a basic one that you can use to web scrape and store the data in your postgres db.
 The spiders are already setup for a basic tutorial, your job is to fill in the postgres details in the pipelines.py file.
 
+I use playwright to render js.
+
+As you
+
 ## Steps:
 
 1. Create a virutal environment
