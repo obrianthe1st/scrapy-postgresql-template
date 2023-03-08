@@ -6,10 +6,10 @@ class TutorialPipeline:
 
     def __init__(self):
         ## Connection Details
-        hostname = 'localhost'
-        username = 'postgres'
-        password = 'matrix%100' # your password
-        database = 'postgres'
+        hostname = ''
+        username = ''
+        password = '' # your password
+        database = ''
 
         ## Create/Connect to database
         self.connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
